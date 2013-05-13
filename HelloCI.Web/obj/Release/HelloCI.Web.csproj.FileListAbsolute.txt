@@ -1,0 +1,1 @@
+D:\SampleCode\xtrumanx-helloci-demo-app-b009609ada2e\HelloCI.Web\obj\Release\ResolveAssemblyReference.cache

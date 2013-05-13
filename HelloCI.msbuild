@@ -1,0 +1,28 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<ItemGroup>
+  <BuildArtifactsFolder Include="BuildArtifacts\"></BuildArtifactsFolder>
+  <SolutionFile Include="HelloCI.sln" />
+  <NUnitConsole Include="L:\Program Files (x86)\NUnit 2.6\bin\nunit-console.exe" />
+  <UnitTestsDLL Include="BuildArtifacts\HelloCI.Web.UnitTests.dll" />
+  <TestResultsPath Include="BuildArtifacts\TestsResults.xml" />
+</ItemGroup>
+
+<PropertyGroup>
+<Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+<BuildPaltform Condition=" '$(BuildPlatform)' == '' ">Any CPU </BuildPaltform>
+</PropertyGroup>
+<Target Name="RunUnitTests" DependsOnTargets="Compile">
+  <Exec Command='"@(NUnitConsole)" @(unitTestsDLL) /xml=@(TestResultsPath)' />
+</Target>
+
+<Target Name="Compile" DependsOnTargets="Init">
+<MSBuild Projects="@(SolutionFile)" Targets="Rebuild"
+ Properties="OutDir=%(BuildArtifactsFolder.FullPath);Configuration=$(Configuration);Platform=$(BuildPaltform)" />
+</Target>
+ <Target Name="Init" DependsOnTargets="Clean">
+  <MakeDir Directories="@(BuildArtifactsFolder)" />
+ </Target>   
+ <Target Name="Clean">
+  <RemoveDir Directories="@(BuildArtifactsFolder)" />
+ </Target>
+ </Project>
